@@ -201,6 +201,7 @@ end
 
 SET_NOT_FOUND   = 1
 PHOTO_NOT_FOUND = 2
+ALREADY_IN_SET = 3
 
 puts "\n#{albumData.length} standard albums in iPhoto\n"
 
@@ -238,7 +239,7 @@ albumData.each do |albumID, album|
       begin
         rateLimit { flickr.photosets.addPhoto(photoset_id: photosetID, photo_id: flickrPhotoID) }
       rescue FlickRaw::FailedResponse => e
-        if [SET_NOT_FOUND, PHOTO_NOT_FOUND].include? e.code  
+        if [SET_NOT_FOUND, PHOTO_NOT_FOUND, ALREADY_IN_SET].include? e.code  
           puts e.msg
           errorHappened = true
         else raise e
